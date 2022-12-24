@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: mongo-initdb
+  name: mongodb-configmap
 data:
   mongodb-init.sh: |
     #!/bin/bash
