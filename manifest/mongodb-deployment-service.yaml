@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongodb-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongodb
+  template:
+    metadata:
+      labels:
+        app: mongodb
+    spec:
+      containers:
+      - image: mongo
+        name: mongodb
+        ports:
+        - containerPort: 27017
+        env:
+        - name: MONGO_INITDB_ROOT_USERNAME
+          value: mongodb
+        - name: MONGO_INITDB_ROOT_PASSWORD
+          value: mongodb
+        - name: MONGO_INITDB_ROOT_DATABASE
+          value: mongodb	
+        - name: DEMO_PASSWORD
+          value: demo		
+        command:
+        - mongod
+        - "--bind_ip_all"
+        volumeMounts:
+        - name: mongo-initdb
+          mountPath: /docker-entrypoint-initdb.d
+      volumes:
+      - name: mongo-initdb
+        configMap:
+          name: mongo-initdb   
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongodb-service
+  labels:
+    app: mongodb
+spec:
+  selector:
+    app: mongodb
+  ports:
+  - name: service
+    port: 27017
+    protocol: TCP
+    targetPort: 27017
+  type: LoadBalancer
