@@ -6,7 +6,7 @@ data:
   mongodb-init.sh: |
     #!/bin/bash
     set -e
-    mongod --ip_bind_all
+    mongod --bind_ip_all
     mongosh <<EOF
     db = db.getSiblingDB('demo')
     db.createUser({
