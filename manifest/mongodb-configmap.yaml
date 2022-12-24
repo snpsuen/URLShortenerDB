@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mongo-initdb
+data:
+  mongo-init.sh: |
+    #!/bin/bash
+    set -e
+    mongosh <<EOF
+    db = db.getSiblingDB('demo')
+    db.createUser({
+      user: 'demo',
+      pwd: '$DEMO_PASSWORD',
+      roles: [{ role: 'readWrite', db: 'demo' }],
+    });
+    db.createCollection('utlmap')
+    EOF
