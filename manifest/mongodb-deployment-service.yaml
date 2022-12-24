@@ -26,15 +26,15 @@ spec:
           value: mongodb	
         - name: DEMO_PASSWORD
           value: demo
-        command: ["/bin/bash"]
-        args: ["-c", "mongod --bind_ip_all; /docker-entrypoint-initdb.d/mongo-init.sh"]
+        command:
+        - /docker-entrypoint-initdb.d/mongodb-init.sh
         volumeMounts:
-        - name: mongo-initdb
+        - name: mongodb-initdb
           mountPath: /docker-entrypoint-initdb.d
       volumes:
-      - name: mongo-initdb
+      - name: mongodb-initdb
         configMap:
-          name: mongo-initdb
+          name: mongodb-initdb
           defaultMode: 0755
 ---
 apiVersion: v1
