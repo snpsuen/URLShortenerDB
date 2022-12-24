@@ -26,6 +26,7 @@ spec:
           value: mongodemo	
         - name: DEMO_PASSWORD
           value: demo
+        args: ["--bind_ip_all"]
         volumeMounts:
         - name: mongodb-cfvol
           mountPath: /docker-entrypoint-initdb.d
