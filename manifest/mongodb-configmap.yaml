@@ -5,7 +5,7 @@ metadata:
 data:
   mongodb-init.sh: |
     #!/bin/bash
-    mongod --fork --bind_ip_all --logpath /var/log/mongod.log
+    set -e
     mongosh <<EOF
     db = db.getSiblingDB('demo')
     db.createUser({
