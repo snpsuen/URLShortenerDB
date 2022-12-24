@@ -27,7 +27,8 @@ spec:
         - name: DEMO_PASSWORD
           value: demo
         command:
-        - /docker-entrypoint-initdb.d/mongodb-init.sh
+        - mongod
+        - "--bind_ip_all"
         volumeMounts:
         - name: mongodb-cfvol
           mountPath: /docker-entrypoint-initdb.d
