@@ -29,6 +29,7 @@ spec:
         command:
         - mongod
         - "--bind_ip_all"
+        - /docker-entrypoint-initdb.d/mongo-init.sh
         volumeMounts:
         - name: mongo-initdb
           mountPath: /docker-entrypoint-initdb.d
