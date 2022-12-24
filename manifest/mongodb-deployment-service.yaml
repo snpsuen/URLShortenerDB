@@ -29,12 +29,12 @@ spec:
         command:
         - /docker-entrypoint-initdb.d/mongodb-init.sh
         volumeMounts:
-        - name: mongodb-initdb
+        - name: mongodb-cfvol
           mountPath: /docker-entrypoint-initdb.d
       volumes:
-      - name: mongodb-initdb
+      - name: mongodb-cfvol
         configMap:
-          name: mongodb-initdb
+          name: mongodb-configmap
           defaultMode: 0755
 ---
 apiVersion: v1
