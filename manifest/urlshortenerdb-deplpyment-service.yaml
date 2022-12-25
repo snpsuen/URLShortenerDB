@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: urlshortener-deployment
+  labels:
+    app: urlshortener
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: urlshortener
+  template:
+    metadata:
+      labels:
+        app: urlshortener
+    spec:
+      containers:
+      - name: urlshortener
+        image: snpsuen/urlshortener:v1
+        # imagePullPolicy: Never
+        ports:
+        - containerPort: 5005
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: urlshortener-service
+spec:
+  selector:
+    app: urlshortener
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 5005
+  type: LoadBalancer
