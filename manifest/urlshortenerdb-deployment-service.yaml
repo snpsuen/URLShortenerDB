@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: urlshortener-deployment
+  name: urlshortenerdb-deployment
   labels:
-    app: urlshortener
+    app: urlshortenerdb
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: urlshortener
+      app: urlshortenerdb
   template:
     metadata:
       labels:
-        app: urlshortener
+        app: urlshortenerdb
     spec:
       containers:
-      - name: urlshortener
-        image: snpsuen/urlshortener:v1
+      - name: urlshortenerdb
+        image: snpsuen/urlshortenerdb:v1
         # imagePullPolicy: Never
         ports:
         - containerPort: 5005
@@ -24,10 +24,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: urlshortener-service
+  name: urlshortenerdb-service
 spec:
   selector:
-    app: urlshortener
+    app: urlshortenerdb
   ports:
   - protocol: TCP
     port: 80
