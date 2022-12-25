@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
-import pickle, random, string
+import pymongo, pickle, random, string
 import os.path
 
 def randomstring(length):
@@ -26,18 +26,13 @@ def shortenurl():
       absolute = request.form['url']
       shorten = randomstring(8)
       
-      filename = "urlmap.pkl"
-      if os.path.exists(filename):
-        urlmapfile = open(filename, "rb")
-        urlmapdict = pickle.load(urlmapfile)
-        urlmapfile.close()
-      else:
-        urlmapdict = {}
+      democlient = pymongo.MongoClient("mongodb://mongodemo:mongodemo@mongodemo-service:27017")
+      demodb = democlient['demo']
+      democollect = demodb['urlmap']
       
-      urlmapdict[shorten] = absolute
-      urlmapfile = open(filename, "wb")
-      pickle.dump(urlmapdict, urlmapfile)
-      urlmapfile.close()
+      newdict['shorturl'] = shorten
+      newdict['fullurl'] = absolute
+      x = democollect.insert_one(newdict)
       
       return render_template('result.html', variable=shorten)
     
