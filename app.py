@@ -33,20 +33,22 @@ def shortenurl():
       newdict['shorturl'] = shorten
       newdict['fullurl'] = absolute
       x = democollect.insert_one(newdict)
-      
+      democlient.close()  
+    
       return render_template('result.html', variable=shorten)
     
 @app.route('/<shortpath>')
 def travel(shortpath):
-    filename = "urlmap.pkl"
-    if os.path.exists(filename):
-        urlmapfile = open(filename, "rb")
-        urlmapdict = pickle.load(urlmapfile)
-        if shortpath in urlmapdict:
-            fullurl = urlmapdict[shortpath]
-            urlmapfile.close()
-            return redirect(fullurl)
-        else:
-            return(f"Short URL ({shortpath}) is not found!\n")
+    democlient = pymongo.MongoClient("mongodb://mongodemo:mongodemo@mongodemo-service:27017")
+    demodb = democlient['demo']
+    democollect = demodb['urlmap']
+    
+    query['shorturl'] = shortpath
+    found = democollect.find_one(query)
+    democlient.close()
+    
+    if found != None:
+        absolute = found['fullurl']
+        return redirect(absolute)
     else:
-        return "URL mapping file does not exist!\n"
+        return(f"Short URL ({shortpath}) is not found!\n")
