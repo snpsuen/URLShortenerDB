@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
-import pymongo, pickle, random, string
+import pymongo, random, string
 import os.path
 
 def randomstring(length):
