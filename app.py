@@ -30,6 +30,7 @@ def shortenurl():
       demodb = democlient['demo']
       democollect = demodb['urlmap']
       
+      newdict = {}
       newdict['shorturl'] = shorten
       newdict['fullurl'] = absolute
       x = democollect.insert_one(newdict)
@@ -43,6 +44,7 @@ def travel(shortpath):
     demodb = democlient['demo']
     democollect = demodb['urlmap']
     
+    query = {}
     query['shorturl'] = shortpath
     found = democollect.find_one(query)
     democlient.close()
