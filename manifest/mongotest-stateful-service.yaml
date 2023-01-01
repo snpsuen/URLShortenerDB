@@ -1,51 +1,51 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: mongotest-stateful
+  name: mongostate
 spec:
-  serviceName: mongotest-headless
+  serviceName: mongostate-headless
   replicas: 2
   selector:
     matchLabels:
-      app: mongotest
+      app: mongostate
   template:
     metadata:
       labels:
-        app: mongotest
+        app: mongostate
     spec:
       containers:
       - image: mongo:latest
-        name: mongotest
+        name: mongostate-container
         ports:
         - containerPort: 27017
         env:
         - name: MONGO_INITDB_ROOT_USERNAME
-          value: mongotest
+          value: mongostate
         - name: MONGO_INITDB_ROOT_PASSWORD
-          value: mongotest
+          value: mongostate
         - name: MONGO_INITDB_ROOT_DATABASE
-          value: mongotest	
+          value: mongostate	
         - name: TEST_PASSWORD
           value: testing
         volumeMounts:
-        - name: mongotest-cfvol
+        - name: mongostate-cfvol
           mountPath: /docker-entrypoint-initdb.d
         args: [ "mongod", "--replSet", "RepSet" ]
       volumes:
-      - name: mongotest-cfvol
+      - name: mongostate-cfvol
         configMap:
-          name: mongotest-configmap
+          name: mongostate-configmap
           defaultMode: 0755
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: mongotest-headless
+  name: mongostate-headless
   labels:
-    app: mongotest
+    app: mongostate
 spec:
   selector:
-    app: mongotest
+    app: mongostate
   ports:
   - name: service
     port: 27017
