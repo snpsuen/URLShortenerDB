@@ -1,20 +1,20 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: mongotest-configmap
+  name: mongostate-configmap
 data:
   mongotest-init.sh: |
     #!/bin/bash
     set -e
-    if [[ "${HOSTNAME}" == "mongotest-0" ]]
+    if [[ "${HOSTNAME}" == "mongostate-0" ]]
     then
       mongosh <<EOF
-      rs.initiate({ _id: "RepSet", members:[ { _id: 0, host: "mongotest-0.mongotest-headless:27017" } ]})
-      rs.add("mongotest-1.mongotest-headless:21797")
+      rs.initiate({ _id: "RepSet", members:[ { _id: 0, host: "mongostate-0.mongostate-headless:27017" } ]})
+      rs.add("mongostate-1.mongostate-headless:21797")
            
       db = db.getSiblingDB('testing')
       db.createUser({
-        user: 'testing',
+        user: 'tester',
         pwd: '$TEST_PASSWORD',
         roles: [{ role: 'readWrite', db: 'testing' }],
       });
