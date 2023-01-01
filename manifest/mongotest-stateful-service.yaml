@@ -25,8 +25,8 @@ spec:
           value: mongotest
         - name: MONGO_INITDB_ROOT_DATABASE
           value: mongotest	
-        - name: DEMO_PASSWORD
-          value: demo
+        - name: TEST_PASSWORD
+          value: testing
         volumeMounts:
         - name: mongotest-cfvol
           mountPath: /docker-entrypoint-initdb.d
