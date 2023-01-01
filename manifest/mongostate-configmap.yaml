@@ -10,8 +10,7 @@ data:
     then
       mongosh <<EOF
       rs.initiate({ _id: "RepSet", members:[ { _id: 0, host: "mongostate-0.mongostate-headless:27017" } ]})
-      rs.add("mongostate-1.mongostate-headless:27017")
-           
+      rs.add("mongostate-1.mongostate-headless:27017")   
       db = db.getSiblingDB('testing')
       db.createUser({
         user: 'tester',
