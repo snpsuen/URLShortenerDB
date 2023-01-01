@@ -19,5 +19,5 @@ data:
         roles: [{ role: 'readWrite', db: 'testing' }],
       });
       db.createCollection('utlmap')
-      EOF
+    EOF
     fi
