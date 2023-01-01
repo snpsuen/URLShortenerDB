@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mongotest-configmap
+data:
+  mongotest-init.sh: |
+    #!/bin/bash
+    set -e
+    if [[ "${HOSTNAME}" == "mongotest-0" ]]
+    then
+      mongosh <<EOF
+      rs.initiate({ _id: "rs0", members:[ { _id: 0, host: "mongotest-0.mongotest-headless:27017" } ]})
+      rs.add("mongotest-1.mongotest-headless:21797")
+           
+      db = db.getSiblingDB('testing')
+      db.createUser({
+        user: 'testing',
+        pwd: '$TEST_PASSWORD',
+        roles: [{ role: 'readWrite', db: 'testing' }],
+      });
+      db.createCollection('utlmap')
+      EOF
+    fi
