@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: mongostate-configmap
 data:
-  mongotest-init.sh: |
+  mongostate-init.sh: |
     #!/bin/bash
     set -e
     if [[ "${HOSTNAME}" == "mongostate-0" ]]
