@@ -19,11 +19,13 @@ spec:
         volumeMounts:
         - name: mongostate-secvol
           mountPath: /etc/mongosecret
+        - name: mongosecret-varvol
+          mountpath: /var/mongosecret
+          readOnly: false
         command: ["/bin/sh"]
         args:
         - "-c"
         - |
-            mkdir -p /var/mongosecret &&
             cp /etc/mongosecret/keyfile /var/mongosecret/keyfile &&
             chmod 400 /var/mongosecret/keyfile &&
             chown 999:999 /var/mongosecret/keyfile && 
@@ -54,6 +56,8 @@ spec:
       - name: mongostate-secvol
         secret:
           secretName: mongostate-secret
+       - name: mongosecret-varvol
+         emptyDir: {}
 ---
 apiVersion: v1
 kind: Service
