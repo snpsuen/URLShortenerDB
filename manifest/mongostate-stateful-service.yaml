@@ -32,6 +32,7 @@ spec:
           mountPath: /docker-entrypoint-initdb.d
         - name: mongostate-secvol
           mountPath: /etc/mongostate-secret
+          readOnly: true
         args: [ "mongod", "--replSet", "RepSet", "--keyFile", "/etc/mongostate-secret/keyfile" ]
       volumes:
       - name: mongostate-cfvol
