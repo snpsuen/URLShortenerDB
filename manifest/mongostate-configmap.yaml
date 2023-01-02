@@ -6,6 +6,7 @@ data:
   mongostate-init.sh: |
     #!/bin/bash
     set -e
+    sleep 5
     if [[ "${HOSTNAME}" == "mongostate-0" ]]
     then
       mongosh <<EOF
