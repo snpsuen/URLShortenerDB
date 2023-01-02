@@ -8,12 +8,14 @@ data:
     set -e
     if [ "${HOSTNAME}" == "mongostate-0" ]
     then
+      echo ">>> Check if mongod is running replSet ...\n"
       ps -ef | grep replSet | grep -v grep > /dev/null
       while [ $? -ne 0 ]
       do
         sleep 5
-        ps -ef | grep replSet | grep -v grep > /dev/null
+        ps -aux | grep replSet | grep -v grep > /dev/null
       done
+      echo ">>> mongod is running with replSet ...\n"
       mongosh <<EOF
       rs.initiate({ _id: "RepSet", members:[ { _id: 0, host: "mongostate-0.mongostate-headless:27017" } ]})
       rs.add("mongostate-1.mongostate-headless:27017")   
