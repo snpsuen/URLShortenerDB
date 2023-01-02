@@ -20,7 +20,7 @@ spec:
         - name: mongostate-secvol
           mountPath: /etc/mongosecret
         - name: mongosecret-varvol
-          mountpath: /var/mongosecret
+          mountPath: /var/mongosecret
           readOnly: false
         command: ["/bin/sh"]
         args:
@@ -48,7 +48,7 @@ spec:
         - name: mongostate-cfvol
           mountPath: /docker-entrypoint-initdb.d
         - name: mongosecret-varvol
-          mountpath: /var/mongosecret
+          mountPath: /var/mongosecret
         args: [ "mongod", "--replSet", "RepSet", "--keyFile", "/var/mongosecret/keyfile" ]
       volumes:
       - name: mongostate-cfvol
