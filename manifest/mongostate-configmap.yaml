@@ -5,6 +5,7 @@ metadata:
 data:
   mongostate-init.sh: |
     #!/bin/bash
+    set +e
     if [ "${HOSTNAME}" == "mongostate-0" ]
     then
       echo ">>> Check if mongod has started running  ...\n"
