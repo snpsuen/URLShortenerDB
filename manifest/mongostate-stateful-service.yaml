@@ -13,6 +13,21 @@ spec:
       labels:
         app: mongostate
     spec:
+      initContainers:
+      - name: keyfile-prep
+        image: busybox
+        volumeMounts:
+        - name: mongostate-secvol
+          mountPath: /etc/mongosecret
+        command:
+        - sh
+        - -c
+        args:
+        - >- 
+            mkdir -p /var/mangosecret &&
+            cp /etc/mongosecret/keyfile /var/mangosecret/keyfile &&
+            chmod 400 /var/mangosecret/keyfile &&
+            chown 999:999 /var/mangosecret/keyfile && sleep 5
       containers:
       - image: mongo:latest
         name: mongostate-container
@@ -30,10 +45,7 @@ spec:
         volumeMounts:
         - name: mongostate-cfvol
           mountPath: /docker-entrypoint-initdb.d
-        - name: mongostate-secvol
-          mountPath: /etc/mongosecret
-          readOnly: true
-        args: [ "mongod", "--replSet", "RepSet", "--keyFile", "/etc/mongosecret/keyfile" ]
+        args: [ "mongod", "--replSet", "RepSet", "--keyFile", "/var/mangosecret/keyfile" ]
       volumes:
       - name: mongostate-cfvol
         configMap:
@@ -42,7 +54,6 @@ spec:
       - name: mongostate-secvol
         secret:
           secretName: mongostate-secret
-          defaultMode: 0400
 ---
 apiVersion: v1
 kind: Service
