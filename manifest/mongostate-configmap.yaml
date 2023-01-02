@@ -5,13 +5,13 @@ metadata:
 data:
   mongostate-init.sh: |
     #!/bin/bash
-    set -e
     if [ "${HOSTNAME}" == "mongostate-0" ]
     then
       echo ">>> Check if mongod has started running  ...\n"
       ps -aux | grep RepSet | grep bind_ip_all | grep -v grep
       while [ $? -ne 0 ]
       do
+        echo "sleep 5 ..."
         sleep 5
         ps -aux | grep RepSet | grep bind_ip_all | grep -v grep
       done
