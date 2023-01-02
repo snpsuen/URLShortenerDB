@@ -8,11 +8,13 @@ data:
     if [ "${HOSTNAME}" == "mongostate-0" ]
     then
       echo ">>> Check if mongod has started running  ...\n"
+      echo "ps -aux | grep RepSet | grep bind_ip_all | grep -v grep ..."
       ps -aux | grep RepSet | grep bind_ip_all | grep -v grep
       while [ $? -ne 0 ]
       do
         echo "sleep 5 ..."
         sleep 5
+        echo "ps -aux | grep RepSet | grep bind_ip_all | grep -v grep ..."
         ps -aux | grep RepSet | grep bind_ip_all | grep -v grep
       done
       echo ">>> mongod is running ...\n"
