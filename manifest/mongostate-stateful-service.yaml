@@ -31,9 +31,9 @@ spec:
         - name: mongostate-cfvol
           mountPath: /docker-entrypoint-initdb.d
         - name: mongostate-secvol
-          mountPath: /etc/mongostate-secret
+          mountPath: /etc/mongosecret
           readOnly: true
-        args: [ "mongod", "--replSet", "RepSet", "--keyFile", "/etc/mongostate-secret/keyfile" ]
+        args: [ "mongod", "--replSet", "RepSet", "--keyFile", "/etc/mongosecret/keyfile" ]
       volumes:
       - name: mongostate-cfvol
         configMap:
@@ -42,7 +42,7 @@ spec:
       - name: mongostate-secvol
         secret:
           secretName: mongostate-secret
-          defaultMode: 0777
+          defaultMode: 0400
 ---
 apiVersion: v1
 kind: Service
