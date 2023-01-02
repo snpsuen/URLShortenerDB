@@ -40,7 +40,7 @@ spec:
           defaultMode: 0755
       - name: mongostate-secvol
         secret:
-          name: mongostate-secret
+          secretName: mongostate-secret
           defaultMode: 0400
 ---
 apiVersion: v1
