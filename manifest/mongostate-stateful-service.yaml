@@ -58,8 +58,8 @@ spec:
       - name: mongostate-secvol
         secret:
           secretName: mongostate-secret
-       - name: mongosecret-varvol
-         emptyDir: {}
+      - name: mongosecret-varvol
+        emptyDir: {}
 ---
 apiVersion: v1
 kind: Service
