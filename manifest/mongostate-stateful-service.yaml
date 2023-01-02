@@ -21,12 +21,12 @@ spec:
           mountPath: /etc/mongosecret
         command: ["/bin/sh"]
         args:
-        - -c
+        - "-c"
         - |
-            mkdir -p /var/mangosecret &&
-            cp /etc/mongosecret/keyfile /var/mangosecret/keyfile &&
-            chmod 400 /var/mangosecret/keyfile &&
-            chown 999:999 /var/mangosecret/keyfile && 
+            mkdir -p /var/mongosecret &&
+            cp /etc/mongosecret/keyfile /var/mongosecret/keyfile &&
+            chmod 400 /var/mongosecret/keyfile &&
+            chown 999:999 /var/mongosecret/keyfile && 
             sleep 5
       containers:
       - image: mongo:latest
@@ -45,7 +45,7 @@ spec:
         volumeMounts:
         - name: mongostate-cfvol
           mountPath: /docker-entrypoint-initdb.d
-        args: [ "mongod", "--replSet", "RepSet", "--keyFile", "/var/mangosecret/keyfile" ]
+        args: [ "mongod", "--replSet", "RepSet", "--keyFile", "/var/mongosecret/keyfile" ]
       volumes:
       - name: mongostate-cfvol
         configMap:
