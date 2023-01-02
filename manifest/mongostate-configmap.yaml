@@ -9,11 +9,11 @@ data:
     if [ "${HOSTNAME}" == "mongostate-0" ]
     then
       echo ">>> Check if mongod is running replSet ...\n"
-      ps -ef | grep replSet | grep -v grep > /dev/null
+      ps -aux | grep replSet | grep -v grep
       while [ $? -ne 0 ]
       do
         sleep 5
-        ps -aux | grep replSet | grep -v grep > /dev/null
+        ps -aux | grep replSet | grep -v grep
       done
       echo ">>> mongod is running with replSet ...\n"
       mongosh <<EOF
