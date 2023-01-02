@@ -19,15 +19,15 @@ spec:
         volumeMounts:
         - name: mongostate-secvol
           mountPath: /etc/mongosecret
-        command:
-        - sh
-        - -c
+        command: ["/bin/sh"]
         args:
-        - >- 
+        - -c
+        - |
             mkdir -p /var/mangosecret &&
             cp /etc/mongosecret/keyfile /var/mangosecret/keyfile &&
             chmod 400 /var/mangosecret/keyfile &&
-            chown 999:999 /var/mangosecret/keyfile && sleep 5
+            chown 999:999 /var/mangosecret/keyfile && 
+            sleep 5
       containers:
       - image: mongo:latest
         name: mongostate-container
