@@ -47,6 +47,8 @@ spec:
         volumeMounts:
         - name: mongostate-cfvol
           mountPath: /docker-entrypoint-initdb.d
+        - name: mongosecret-varvol
+          mountpath: /var/mongosecret
         args: [ "mongod", "--replSet", "RepSet", "--keyFile", "/var/mongosecret/keyfile" ]
       volumes:
       - name: mongostate-cfvol
