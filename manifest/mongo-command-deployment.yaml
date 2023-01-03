@@ -33,7 +33,7 @@ spec:
         args:
         - "-c"
         - |
-            cp mongod --fork --sylog --bind_ip_all &&
+            mongod --fork --sylog --bind_ip_all &&
             /docker-entrypoint-initdb.d/mongodb-init.sh
       volumes:
       - name: mongodb-cfvol
