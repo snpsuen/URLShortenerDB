@@ -52,7 +52,7 @@ spec:
               name: mongo-init-secret
               key: database
         - name: TEST_PASSWORD
-           valueFrom:
+          valueFrom:
             secretKeyRef:
               name: mongo-init-secret
               key: testpassword         
