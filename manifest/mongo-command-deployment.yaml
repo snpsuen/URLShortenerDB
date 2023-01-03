@@ -29,6 +29,12 @@ spec:
         volumeMounts:
         - name: mongodb-cfvol
           mountPath: /docker-entrypoint-initdb.d
+        command: ["/bin/sh"]
+        args:
+        - "-c"
+        - |
+            cp mongod --fork --sylog --bind_ip_all &&
+            /docker-entrypoint-initdb.d/mongo-init.sh
       volumes:
       - name: mongodb-cfvol
         configMap:
