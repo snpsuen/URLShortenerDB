@@ -23,7 +23,7 @@ spec:
         - name: MONGO_INITDB_ROOT_PASSWORD
           value: mongodemo
         - name: MONGO_INITDB_ROOT_DATABASE
-          value: mongodemo	
+          value: mongodemo
         - name: DEMO_PASSWORD
           value: demo
         volumeMounts:
@@ -33,8 +33,9 @@ spec:
         args:
         - "-c"
         - |
-            mongod --fork --sylog --bind_ip_all &&
-            /docker-entrypoint-initdb.d/mongodb-init.sh
+            mongod --fork --syslog --bind_ip_all &&
+            /docker-entrypoint-initdb.d/mongodb-init.sh &&
+            while true; do sleep 5; done
       volumes:
       - name: mongodb-cfvol
         configMap:
