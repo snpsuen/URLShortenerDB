@@ -13,5 +13,5 @@ data:
       pwd: '$DEMO_PASSWORD',
       roles: [{ role: 'readWrite', db: 'demo' }],
     });
-    db.createCollection('utlmap')
+    db.createCollection('urlmap')
     EOF
