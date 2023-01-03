@@ -28,7 +28,7 @@ spec:
         - |
             cp /etc/mongosecret/keyfile /var/mongosecret/keyfile &&
             chmod 400 /var/mongosecret/keyfile &&
-            chown 999:999 /var/mongosecret/keyfile && 
+            chown 999:999 /var/mongosecret/keyfile &&
             sleep 5
       containers:
       - image: mongo:latest
