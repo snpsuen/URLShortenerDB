@@ -15,6 +15,7 @@ spec:
       containers:
       - image: mongo:latest
         name: mongodemo
+        tty: true
         ports:
         - containerPort: 27017
         env:
@@ -35,7 +36,7 @@ spec:
         - |
             mongod --fork --syslog --bind_ip_all &&
             /docker-entrypoint-initdb.d/mongodb-init.sh &&
-            while true; do sleep 5; done
+            bash
       volumes:
       - name: mongodb-cfvol
         configMap:
