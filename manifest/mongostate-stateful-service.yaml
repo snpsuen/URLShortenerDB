@@ -66,7 +66,7 @@ spec:
         - "-c"
         - |
             mongod --replSet RepSet --keyFile /var/mongosecret/keyfile --fork --syslog &&
-            /docker-entrypoint-initdb.d/mongodb-init.sh &&
+            /docker-entrypoint-initdb.d/mongostate-init.sh &&
             mongod --shutdown
             exec mongod --replSet RepSet --keyFile /var/mongosecret/keyfile -bind_ip_all
       volumes:
