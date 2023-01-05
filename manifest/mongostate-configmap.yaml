@@ -9,13 +9,7 @@ data:
     if [ "${HOSTNAME}" == "mongostate-0" ]
     then
       mongosh <<EOF
-      use admin
-      db.grantRolesToUser(
-        "admin",
-        [ "clusterManager" ]
-      )
-      rs.initiate({ '_id': "RepSet", 'members':[ { '_id': 0, 'host': "mongostate-0.mongostate-headless.default.svc.cluster.local:27017" } ]})
-      rs.add("mongostate-1.mongostate-headless.default.svc.cluster.local:27017")   
+      rs.initiate({ '_id': "RepSet", 'members':[ { '_id': 0, 'host': "mongostate-0.mongostate-headless.default.svc.cluster.local:27017" }, { '_id': 1, 'host': "mongostate-1.mongostate-headless.default.svc.cluster.local:27017" } ] } )
       db = db.getSiblingDB('statetest')
       db.createUser({
         user: 'tester',
