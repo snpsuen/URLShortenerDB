@@ -9,6 +9,7 @@ data:
     if [ "${HOSTNAME}" == "mongostate-0" ]
     then
       mongosh <<EOF
+      use admin
       db.grantRolesToUser(
         "admin",
         [ "clusterManager" ]
