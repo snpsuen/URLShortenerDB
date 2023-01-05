@@ -65,10 +65,10 @@ spec:
         args:
         - "-c"
         - |
-            mongod --replSet RepSet --keyFile /var/mongosecret/keyfile --fork --syslog &&
+            mongod -auth --replSet RepSet --keyFile /var/mongosecret/keyfile --fork --syslog &&
             /docker-entrypoint-initdb.d/mongostate-init.sh &&
             mongod --shutdown
-            exec mongod --replSet RepSet --keyFile /var/mongosecret/keyfile -bind_ip_all
+            exec mongod -auth --replSet RepSet --keyFile /var/mongosecret/keyfile -bind_ip_all
       volumes:
       - name: mongostate-cfvol
         configMap:
