@@ -8,7 +8,7 @@ data:
     set +e
     if [ "${HOSTNAME}" == "mongostate-0" ]
     then
-      mongosh <<EOF
+      mongosh -u mongostate -p mongostate <<EOF
       rs.initiate({ '_id': "RepSet", 'members':[ { '_id': 0, 'host': "mongostate-0.mongostate-headless.default.svc.cluster.local:27017" } ]})
       rs.add("mongostate-1.mongostate-headless.default.svc.cluster.local:27017")   
       db = db.getSiblingDB('statetest')
