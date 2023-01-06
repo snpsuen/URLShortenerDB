@@ -20,6 +20,7 @@ data:
       mongosh <<EOF
       rs.initiate({ _id: "RepSet", members:[ { _id: 0, host: "mongostate-0.mongostate-headless.default.svc.cluster.local:27017" } ]})
       use admin
+      db.createUser( {user: 'admin', pwd: 'admin', roles: [{ role: 'root', db: 'admin' }]} )
       db.auth("admin", "admin")
       rs.add("mongostate-1.mongostate-headless.default.svc.cluster.local:27017")
       db = db.getSiblingDB('statetest')
