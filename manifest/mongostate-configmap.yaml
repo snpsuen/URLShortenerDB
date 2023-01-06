@@ -8,7 +8,7 @@ data:
     if [ "${HOSTNAME}" == "mongostate-0" ]
     then
       echo "Primary starting initial mongod ..."
-      mongod --replSet RepSet --keyFile /var/mongosecret/keyfile --fork --syslog
+      mongod --replSet RepSet --keyFile /var/mongosecret/keyfile --fork --logpath /var/log/mongodb/fork_initial.log
       echo "Waiting for secondary to come up ..."
       mongosh mongodb://mongostate-1.mongostate-headless.default.svc.cluster.local:27017 -eval="exit"
       while [ $? -ne 0 ]
@@ -20,8 +20,8 @@ data:
       mongosh <<EOF
       rs.initiate({ _id: "RepSet", members:[ { _id: 0, host: "mongostate-0.mongostate-headless.default.svc.cluster.local:27017" } ]})
       use admin
-      db.createUser( {user: 'admin', pwd: 'admin', roles: [{ role: 'root', db: 'admin' }]} )
-      db.auth("admin", "admin")
+      db.createUser( {user: "$MONGO_INITDB_ROOT_USERNAME", pwd: "$MONGO_INITDB_ROOT_PASSWORD", roles: [{ role: 'root', db: 'admin' }]} )
+      db.auth("$MONGO_INITDB_ROOT_USERNAME", "$MONGO_INITDB_ROOT_PASSWORD")
       rs.add("mongostate-1.mongostate-headless.default.svc.cluster.local:27017")
       db = db.getSiblingDB('statetest')
       db.createUser({user: 'tester', pwd: 'testing', roles: [{ role: 'readWrite', db: 'statetest' }]})
@@ -30,4 +30,5 @@ data:
       echo "Primary shutting down initial mongod ..."
       mongod --shutdown
     fi
+    echo "Starting final mongod ..."
     exec mongod --replSet RepSet --keyFile /var/mongosecret/keyfile --bind_ip_all
