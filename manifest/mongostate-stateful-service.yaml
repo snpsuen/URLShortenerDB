@@ -61,13 +61,7 @@ spec:
           mountPath: /docker-entrypoint-initdb.d
         - name: mongosecret-varvol
           mountPath: /var/mongosecret
-        command: ["mongod"]
-        args:
-        - --replSet
-        - RepSet
-        - --keyFile
-        - /var/mongosecret/keyfile
-        - -bind_ip_all
+        command: ["/docker-entrypoint-initdb.d/mongostate-init.sh"]
       volumes:
       - name: mongostate-cfvol
         configMap:
