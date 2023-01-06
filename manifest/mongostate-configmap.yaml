@@ -8,7 +8,7 @@ data:
     if [ "${HOSTNAME}" == "mongostate-0" ]
     then
       echo "Primary starting initial mongod ..."
-      mongod --replset RepSet --keyFile /var/mongosecret/keyfile --fork --syslog
+      mongod --replSet RepSet --keyFile /var/mongosecret/keyfile --fork --syslog
       echo "Waiting for secondary to come up ..."
       mongosh mongodb://mongostate-1.mongostate-headless.default.svc.cluster.local:27017 -eval="exit"
       while [ $? -ne 0 ]
@@ -29,4 +29,4 @@ data:
       echo "Primary shutting down initial mongod ..."
       mongod --shutdown
     fi
-    exec mongod --replset RepSet --keyFile /var/mongosecret/keyfile --bind_ip_all
+    exec mongod --replSet RepSet --keyFile /var/mongosecret/keyfile --bind_ip_all
