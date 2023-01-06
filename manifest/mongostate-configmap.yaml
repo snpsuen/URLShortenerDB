@@ -5,17 +5,27 @@ metadata:
 data:
   mongostate-init.sh: |
     #!/bin/bash
-    set +e
     if [ "${HOSTNAME}" == "mongostate-0" ]
     then
+      echo "Primary starting initial mongod ..."
+      mongod --replset RepSet --keyFile /var/mongosecret/keyfile --fork --syslog
+      echo "Waiting for secondary to come up ..."
+      mongosh mongodb://mongostate-1.mongostate-headless.default.svc.cluster.local:27017 -eval="exit"
+      while [ $? -ne 0 ]
+      do
+        sleep 5
+        mongosh mongodb://mongostate-1.mongostate-headless.default.svc.cluster.local:27017 -eval="exit"
+      done
+      echo "Initiating replica set and initialising database ..."
       mongosh <<EOF
-      rs.initiate({ '_id': "RepSet", 'members':[ { '_id': 0, 'host': "mongostate-0.mongostate-headless.default.svc.cluster.local:27017" }, { '_id': 1, 'host': "mongostate-1.mongostate-headless.default.svc.cluster.local:27017" } ] } )
+      rs.initiate({ _id: "RepSet", members:[ { _id: 0, host: "mongostate-0.mongostate-headless.default.svc.cluster.local:27017" } ]})
+      use admin
+      rs.add("mongostate-1.mongostate-headless.default.svc.cluster.local:27017")
       db = db.getSiblingDB('statetest')
-      db.createUser({
-        user: 'tester',
-        pwd: '$TEST_PASSWORD',
-        roles: [{ role: 'readWrite', db: 'testing' }],
-      });
+      db.createUser({user: 'tester', pwd: 'testing', roles: [{ role: 'readWrite', db: 'statetest' }]})
       db.createCollection('urlmap')
     EOF
+      echo "Primary shutting down initial mongod ..."
+      mongod --shutdown
     fi
+    exec mongod --replset RepSet --keyFile /var/mongosecret/keyfile --bind_ip_all
